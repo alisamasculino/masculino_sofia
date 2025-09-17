@@ -42,13 +42,16 @@
     <section class="bg-indigo-50 rounded-xl p-6 shadow-md overflow-x-auto">
       <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b border-indigo-300 pb-2 gap-4">
         <h2 class="text-2xl font-semibold text-indigo-800 text-center sm:text-left">Students List</h2>
-        <!-- Search bar -->
-        <input id="searchInput" type="text" placeholder="Search students..." 
-          class="w-full sm:w-64 px-4 py-2 border border-indigo-300 rounded-lg focus:ring focus:ring-indigo-400 focus:outline-none"/>
-        <a href="<?=site_url('students/create');?>" 
-          class="mt-3 sm:mt-0 inline-block bg-indigo-900 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-800 transition duration-200">
-          + Create New Account
-        </a>
+        
+        <!-- Right side: Create button + Search -->
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+          <a href="<?=site_url('students/create');?>" 
+            class="inline-block bg-indigo-900 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-800 transition duration-200">
+            + Create New Account
+          </a>
+          <input id="searchInput" type="text" placeholder="Search students..." 
+            class="w-full sm:w-64 px-4 py-2 border border-indigo-300 rounded-lg focus:ring focus:ring-indigo-400 focus:outline-none"/>
+        </div>
       </div>
 
       <table id="studentTable" class="w-full border-collapse text-indigo-900 min-w-[600px]">
@@ -119,6 +122,21 @@
 
       if (pageCount === 0) return;
 
+      // Prev button
+      let prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "&#8592; Prev";
+      prevBtn.className = "px-3 py-1 border rounded-lg text-indigo-700 bg-white hover:bg-indigo-100 disabled:opacity-50";
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          displayRows(currentPage);
+          setupPagination();
+        }
+      });
+      pagination.appendChild(prevBtn);
+
+      // Page numbers
       for (let i = 1; i <= pageCount; i++) {
         let btn = document.createElement("button");
         btn.innerText = i;
@@ -131,6 +149,20 @@
         });
         pagination.appendChild(btn);
       }
+
+      // Next button
+      let nextBtn = document.createElement("button");
+      nextBtn.innerHTML = "Next &#8594;";
+      nextBtn.className = "px-3 py-1 border rounded-lg text-indigo-700 bg-white hover:bg-indigo-100 disabled:opacity-50";
+      nextBtn.disabled = currentPage === pageCount;
+      nextBtn.addEventListener("click", () => {
+        if (currentPage < pageCount) {
+          currentPage++;
+          displayRows(currentPage);
+          setupPagination();
+        }
+      });
+      pagination.appendChild(nextBtn);
     }
 
     function refreshTable() {

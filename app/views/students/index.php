@@ -40,15 +40,18 @@
 
     <!-- TABLE LIST -->
     <section class="bg-indigo-50 rounded-xl p-6 shadow-md overflow-x-auto">
-      <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b border-indigo-300 pb-2">
+      <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b border-indigo-300 pb-2 gap-4">
         <h2 class="text-2xl font-semibold text-indigo-800 text-center sm:text-left">Students List</h2>
+        <!-- Search bar -->
+        <input id="searchInput" type="text" placeholder="Search students..." 
+          class="w-full sm:w-64 px-4 py-2 border border-indigo-300 rounded-lg focus:ring focus:ring-indigo-400 focus:outline-none"/>
         <a href="<?=site_url('students/create');?>" 
           class="mt-3 sm:mt-0 inline-block bg-indigo-900 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-800 transition duration-200">
           + Create New Account
         </a>
       </div>
 
-      <table class="w-full border-collapse text-indigo-900 min-w-[600px]">
+      <table id="studentTable" class="w-full border-collapse text-indigo-900 min-w-[600px]">
         <thead class="bg-indigo-500 text-white select-none">
           <tr>
             <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wide">ID</th>
@@ -80,8 +83,67 @@
           <?php endforeach; ?>
         </tbody>
       </table>
-    </section>
 
+      <!-- Pagination Controls -->
+      <div id="pagination" class="flex justify-center mt-6 space-x-2"></div>
+    </section>
   </div>
+
+  <script>
+    const rowsPerPage = 5;
+    const rows = document.querySelectorAll("#studentTable tbody tr");
+    const pagination = document.getElementById("pagination");
+    const searchInput = document.getElementById("searchInput");
+    let currentPage = 1;
+
+    function getFilteredRows() {
+      let filter = searchInput.value.toLowerCase();
+      return Array.from(rows).filter(row => row.innerText.toLowerCase().includes(filter));
+    }
+
+    function displayRows(page) {
+      let filteredRows = getFilteredRows();
+      let start = (page - 1) * rowsPerPage;
+      let end = start + rowsPerPage;
+
+      rows.forEach(row => row.style.display = "none");
+      filteredRows.forEach((row, index) => {
+        if (index >= start && index < end) row.style.display = "";
+      });
+    }
+
+    function setupPagination() {
+      pagination.innerHTML = "";
+      let filteredRows = getFilteredRows();
+      let pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+
+      if (pageCount === 0) return;
+
+      for (let i = 1; i <= pageCount; i++) {
+        let btn = document.createElement("button");
+        btn.innerText = i;
+        btn.className = "px-3 py-1 border rounded-lg text-indigo-700 bg-white hover:bg-indigo-100 " +
+                        (i === currentPage ? "bg-indigo-200 font-bold" : "");
+        btn.addEventListener("click", () => {
+          currentPage = i;
+          displayRows(currentPage);
+          setupPagination();
+        });
+        pagination.appendChild(btn);
+      }
+    }
+
+    function refreshTable() {
+      currentPage = 1;
+      displayRows(currentPage);
+      setupPagination();
+    }
+
+    // Event: Search input
+    searchInput.addEventListener("keyup", refreshTable);
+
+    // Initialize
+    refreshTable();
+  </script>
 </body>
 </html>

@@ -40,17 +40,17 @@
 
     <!-- TABLE LIST -->
     <section class="bg-indigo-50 rounded-xl p-6 shadow-md overflow-x-auto">
-      <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b border-indigo-300 pb-2 gap-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b border-indigo-300 pb-2 gap-4 w-full">
         <h2 class="text-2xl font-semibold text-indigo-800 text-center sm:text-left">Students List</h2>
         
-        <!-- Right side: Create button + Search -->
-        <div class="flex flex-col sm:flex-row items-center gap-3">
+        <!-- Right side: Search + Create button -->
+        <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto justify-end">
+          <input id="searchInput" type="text" placeholder="Search students..." 
+            class="w-full sm:w-64 px-4 py-2 border border-indigo-300 rounded-lg focus:ring focus:ring-indigo-400 focus:outline-none"/>
           <a href="<?=site_url('students/create');?>" 
             class="inline-block bg-indigo-900 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-800 transition duration-200">
             + Create New Account
           </a>
-          <input id="searchInput" type="text" placeholder="Search students..." 
-            class="w-full sm:w-64 px-4 py-2 border border-indigo-300 rounded-lg focus:ring focus:ring-indigo-400 focus:outline-none"/>
         </div>
       </div>
 

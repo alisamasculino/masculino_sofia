@@ -15,16 +15,28 @@ class StudentController extends Controller {
         $this->call->model('StudentModel');
     }
 
-
-
     public function index()
     {
-        $data['users'] = $this->StudentModel->all();
+        // Get search query
+        $search = $this->io->get('search') ?? '';
+
+        // Pagination settings
+        $limit = 5; // number of records per page
+        $page  = (int)($this->io->get('page') ?? 1);
+        $offset = ($page - 1) * $limit;
+
+        // Fetch students with search & pagination
+        $data['users'] = $this->StudentModel->search($search, $limit, $offset);
+
+        // Get total number of students for pagination
+        $total_students = $this->StudentModel->countSearch($search);
+        $data['total_pages'] = ceil($total_students / $limit);
+        $data['current_page'] = $page;
+        $data['search'] = $search;
+
         $this->call->view('students/index', $data);
     }
 
-
-    
     public function create() 
     {
         if($this->io->method() == 'post') {
@@ -47,8 +59,6 @@ class StudentController extends Controller {
             $this->call->view('students/create');
         }
     }
-
-
 
     public function update($id)
     {
@@ -80,8 +90,6 @@ class StudentController extends Controller {
         }
     }
 
-
-
     public function delete($id)
     {
         if ($this->StudentModel->delete($id)) {
@@ -90,5 +98,4 @@ class StudentController extends Controller {
             echo 'Error deleting student.';
         }
     }
-
 }

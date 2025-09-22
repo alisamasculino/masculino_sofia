@@ -1,181 +1,256 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>STUDENT'S LIST</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Records</title>
   <style>
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 50, 0.5);
-      z-index: 0;
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f5f1e9, #e2d6c8);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: #3b2f2f;
     }
-    #app {
-      position: relative;
-      z-index: 1;
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background: rgba(59, 47, 47, 0.1);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(59, 47, 47, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    .overflow-x-auto::-webkit-scrollbar {
-      height: 8px;
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      color: #3b2f2f;
     }
-    .overflow-x-auto::-webkit-scrollbar-track {
-      background: transparent;
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
     }
-    .overflow-x-auto::-webkit-scrollbar-thumb {
-      background-color: #4f46e5;
-      border-radius: 4px;
+
+    .nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 12px;
+      background: #8b5e3c;
+      transition: all 0.3s ease;
+    }
+
+    .nav a:hover {
+      background: #a17459;
+      transform: translateY(-2px);
+    }
+
+    .nav input[type="text"] {
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid #8b5e3c;
+      outline: none;
+      font-size: 1rem;
+      width: 180px;
+      background: #f5f1e9;
+      color: #3b2f2f;
+    }
+
+    .app {
+      padding: 60px 20px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 40px;
+      font-weight: 700;
+      color: #3b2f2f;
+    }
+
+    .students-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: center;
+    }
+
+    .student-container {
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(6px);
+      width: 280px;
+      padding: 28px;
+      box-shadow: 0 8px 20px rgba(59, 47, 47, 0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .student-container:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 26px rgba(59, 47, 47, 0.35);
+    }
+
+    .student-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #3b2f2f;
+      margin-bottom: 6px;
+    }
+
+    .student-email {
+      font-size: 1.1rem;
+      color: #8b5e3c;
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .action-button {
+      background: #8b5e3c;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .action-button:hover {
+      background: #a17459;
+      transform: translateY(-2px);
+    }
+
+    .delete-button {
+      background: #d9774f;
+      box-shadow: 0 4px 12px rgba(217, 119, 79, 0.3);
+    }
+
+    .delete-button:hover {
+      background: #f0a472;
+    }
+
+    .pagination {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pagination a {
+      padding: 8px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #fff;
+      background: #8b5e3c;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .pagination a:hover, .pagination a.active {
+      background: #a17459;
+    }
+
+    @media (max-width: 600px) {
+      .student-container {
+        width: 100%;
+      }
+      .nav {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+      }
+      .nav input[type="text"] {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      text-align: center;
+      color: #3b2f2f;
+      font-size: 0.9rem;
+      background: rgba(235, 225, 210, 0.5);
+      backdrop-filter: blur(6px);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
     }
   </style>
 </head>
-<body
-  class="min-h-screen flex items-center justify-center p-6 bg-cover bg-center relative"
-  style="background-image: url('https://i.pinimg.com/originals/5e/aa/8e/5eaa8e51ed6d41bc1516bd610d191ee1.gif');"
->
-  <div id="app" class="relative w-full max-w-6xl rounded-2xl shadow-2xl p-8 flex flex-col gap-10">
-    <h1 class="text-4xl font-extrabold text-white text-center tracking-wide drop-shadow-md">
-      STUDENT'S RECORDS
-    </h1>
+<body>
 
-    <!-- TABLE LIST -->
-    <section class="bg-indigo-50 rounded-xl p-6 shadow-md overflow-x-auto">
-      <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b border-indigo-300 pb-2 gap-4 w-full">
-        <h2 class="text-2xl font-semibold text-indigo-800 text-center sm:text-left">Students List</h2>
-        
-        <!-- Right side: Search + Create button -->
-        <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto justify-end">
-          <input id="searchInput" type="text" placeholder="Search students..." 
-            class="w-full sm:w-64 px-4 py-2 border border-indigo-300 rounded-lg focus:ring focus:ring-indigo-400 focus:outline-none"/>
-          <a href="<?=site_url('students/create');?>" 
-            class="inline-block bg-indigo-900 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-800 transition duration-200">
-            + Create New Account
-          </a>
+<header>
+  <h1>Student Management</h1>
+  <div class="nav">
+    <a href="<?= site_url('students/create'); ?>">Add Record</a>
+    <form method="get" style="display: inline;">
+      <input type="text" name="search" value="<?= htmlspecialchars($search ?? ''); ?>" placeholder="Search students...">
+    </form>
+  </div>
+</header>
+
+<div class="app">
+  <h2>Student Records</h2>
+  <div class="students-list">
+    <?php if(!empty($users)): ?>
+      <?php foreach ($users as $user): ?>
+        <div class="student-container">
+          <div>
+            <div class="student-name"><?= $user['first_name'] ?> <?= $user['last_name'] ?></div>
+            <div class="student-email"><?= $user['email'] ?></div>
+          </div>
+          <div class="actions">
+            <a href="<?= site_url('students/update/'.$user['id']); ?>" class="action-button">Update</a>
+            <a href="<?= site_url('students/delete/'.$user['id']); ?>" onclick="return confirm('Are you sure?');" class="action-button delete-button">Delete</a>
+          </div>
         </div>
-      </div>
-
-      <table id="studentTable" class="w-full border-collapse text-indigo-900 min-w-[600px]">
-        <thead class="bg-indigo-500 text-white select-none">
-          <tr>
-            <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wide">ID</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wide">First Name</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wide">Last Name</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wide">Email</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wide">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-indigo-300 bg-indigo-50">
-          <?php foreach (html_escape($users) as $user): ?>
-          <tr class="hover:bg-indigo-100 transition duration-200 cursor-default">
-            <td class="px-6 py-4 text-sm font-medium"><?= ($user['id']);?></td>
-            <td class="px-6 py-4 text-sm"><?= ($user['first_name']);?></td>
-            <td class="px-6 py-4 text-sm"><?= ($user['last_name']);?></td>
-            <td class="px-6 py-4 text-sm break-all"><?= ($user['email']);?></td>
-            <td class="px-6 py-4 text-sm space-x-3 flex flex-wrap gap-2">
-              <a href="<?=site_url('students/update/'.$user['id']);?>" 
-                class="text-indigo-700 hover:text-indigo-900 font-semibold transition duration-150 px-3 py-1 border border-indigo-700 rounded-lg hover:bg-indigo-100">
-                Update
-              </a>
-              <a href="<?=site_url('students/delete/'.$user['id']);?>" 
-                onclick="return confirm('Are you sure you want to delete this record?');"
-                class="text-red-600 hover:text-red-800 font-semibold transition duration-150 px-3 py-1 border border-red-600 rounded-lg hover:bg-red-100">
-                Delete
-              </a>
-            </td>
-          </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-
-      <!-- Pagination Controls -->
-      <div id="pagination" class="flex justify-center mt-6 space-x-2"></div>
-    </section>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p>No students found.</p>
+    <?php endif; ?>
   </div>
 
-  <script>
-    const rowsPerPage = 5;
-    const rows = document.querySelectorAll("#studentTable tbody tr");
-    const pagination = document.getElementById("pagination");
-    const searchInput = document.getElementById("searchInput");
-    let currentPage = 1;
+  <!-- Pagination -->
+  <div class="pagination">
+    <?php for($i=1; $i<=$total_pages; $i++): ?>
+      <a href="?page=<?= $i ?>&search=<?= urlencode($search) ?>" class="<?= ($i == $current_page) ? 'active' : '' ?>"><?= $i ?></a>
+    <?php endfor; ?>
+  </div>
+</div>
 
-    function getFilteredRows() {
-      let filter = searchInput.value.toLowerCase();
-      return Array.from(rows).filter(row => row.innerText.toLowerCase().includes(filter));
-    }
+<footer>
+  <p>&copy; <?= date('Y'); ?> Student Management System</p>
+  <p>BSIT 3F2 Students | Mindoro State University</p>
+</footer>
 
-    function displayRows(page) {
-      let filteredRows = getFilteredRows();
-      let start = (page - 1) * rowsPerPage;
-      let end = start + rowsPerPage;
-
-      rows.forEach(row => row.style.display = "none");
-      filteredRows.forEach((row, index) => {
-        if (index >= start && index < end) row.style.display = "";
-      });
-    }
-
-    function setupPagination() {
-      pagination.innerHTML = "";
-      let filteredRows = getFilteredRows();
-      let pageCount = Math.ceil(filteredRows.length / rowsPerPage);
-
-      if (pageCount === 0) return;
-
-      // Prev button
-      let prevBtn = document.createElement("button");
-      prevBtn.innerHTML = "&#8592; Prev";
-      prevBtn.className = "px-3 py-1 border rounded-lg text-indigo-700 bg-white hover:bg-indigo-100 disabled:opacity-50";
-      prevBtn.disabled = currentPage === 1;
-      prevBtn.addEventListener("click", () => {
-        if (currentPage > 1) {
-          currentPage--;
-          displayRows(currentPage);
-          setupPagination();
-        }
-      });
-      pagination.appendChild(prevBtn);
-
-      // Page numbers
-      for (let i = 1; i <= pageCount; i++) {
-        let btn = document.createElement("button");
-        btn.innerText = i;
-        btn.className = "px-3 py-1 border rounded-lg text-indigo-700 bg-white hover:bg-indigo-100 " +
-                        (i === currentPage ? "bg-indigo-200 font-bold" : "");
-        btn.addEventListener("click", () => {
-          currentPage = i;
-          displayRows(currentPage);
-          setupPagination();
-        });
-        pagination.appendChild(btn);
-      }
-
-      // Next button
-      let nextBtn = document.createElement("button");
-      nextBtn.innerHTML = "Next &#8594;";
-      nextBtn.className = "px-3 py-1 border rounded-lg text-indigo-700 bg-white hover:bg-indigo-100 disabled:opacity-50";
-      nextBtn.disabled = currentPage === pageCount;
-      nextBtn.addEventListener("click", () => {
-        if (currentPage < pageCount) {
-          currentPage++;
-          displayRows(currentPage);
-          setupPagination();
-        }
-      });
-      pagination.appendChild(nextBtn);
-    }
-
-    function refreshTable() {
-      currentPage = 1;
-      displayRows(currentPage);
-      setupPagination();
-    }
-
-    // Event: Search input
-    searchInput.addEventListener("keyup", refreshTable);
-
-    // Initialize
-    refreshTable();
-  </script>
 </body>
 </html>

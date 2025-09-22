@@ -17,8 +17,8 @@ class StudentController extends Controller {
 
     public function index()
     {
-        $users = User::paginate(8); // or your model name
-        return view('students.index', compact('users'));
+        $data['users'] = $this->StudentModel->all(); 
+        $this->call->view('students/index', $data);
     }
 
 

@@ -23,7 +23,7 @@ class StudentModel extends Model {
     }
 
     // Count total rows (for pagination)
-    public function getStudentsCount($search = null)
+    public function countAll($search = null)
     {
         if (!empty($search)) {
             $this->db->like('first_name', $search);

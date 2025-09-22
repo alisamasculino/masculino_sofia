@@ -17,24 +17,7 @@ class StudentController extends Controller {
 
     public function index()
     {
-        // Get search query safely
-        $search = $this->io->get('search') ?? '';
-
-        // Prepare base query
-        $query = "SELECT * FROM students";
-
-        if ($search !== '') {
-            // Use prepared statements to prevent SQL injection
-            $query .= " WHERE first_name LIKE :search OR last_name LIKE :search OR email LIKE :search";
-            $params = [':search' => "%$search%"];
-            $data['users'] = $this->StudentModel->query($query, $params); 
-        } else {
-            $data['users'] = $this->StudentModel->all();
-        }
-
-        // Pass search term to view
-        $data['search'] = $search;
-
+        $data['users'] = $this->StudentModel->all(); 
         $this->call->view('students/index', $data);
     }
 

@@ -29,7 +29,7 @@ class StudentController extends Controller {
 
         // Fetch data
         $users = $this->StudentModel->getPaginated($limit, $offset, $search);
-        $totalRecords = $this->StudentModel->getStudentsCount($search);
+        $totalRecords = $this->StudentModel->countAll($search);
         $totalPages = ceil($totalRecords / $limit);
 
         // Send data to view

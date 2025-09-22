@@ -23,16 +23,14 @@ class StudentModel extends Model {
     }
 
     // Count total rows (for pagination)
-    public function countAll($search = null)
+    public function countAll($search = '')
     {
+        $this->db->table($this->table);
         if (!empty($search)) {
             $this->db->like('first_name', $search);
             $this->db->or_like('last_name', $search);
             $this->db->or_like('email', $search);
         }
-
-        // Run the query and count the rows
-        $query = $this->db->get('students'); // make sure 'students' is your table name
-        return $query->num_rows();
+        return $this->db->get()->num_rows();
     }
 }

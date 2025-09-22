@@ -140,7 +140,7 @@ Class Io {
 			}
 			return $get;
 		}
-		return $_GET[$index] ?? null;
+		return $_GET[$index];
 	}
 
 	/**

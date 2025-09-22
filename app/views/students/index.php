@@ -70,28 +70,13 @@
             color: #3b2f2f;
         }
 
-        /* Main app container */
-        .app {
-            padding: 60px 20px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #3b2f2f;
-        }
-
         /* Students list */
         .students-list {
             display: flex;
             flex-wrap: wrap;
             gap: 28px;
             justify-content: center;
+            padding-top: 60px;
         }
 
         .student-container {
@@ -166,17 +151,46 @@
             .student-container {
                 width: 100%;
             }
-
             .nav {
                 width: 100%;
                 justify-content: center;
                 gap: 10px;
             }
-
             .nav input[type="text"] {
                 width: 100%;
                 max-width: 250px;
             }
+        }
+
+        /* Pagination */
+        .pagination {
+            margin: 40px 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .page-link, .page-arrow {
+            padding: 10px 16px;
+            border-radius: 8px;
+            background: #8b5e3c;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .page-link:hover, .page-arrow:hover {
+            background: #a17459;
+            transform: translateY(-2px);
+        }
+
+        .page-link.active {
+            background: #3b2f2f;
+            color: #f5f1e9;
+            cursor: default;
         }
 
         /* Footer */
@@ -198,31 +212,56 @@
     </style>
 </head>
 <body>
+
     <!-- Header/Navbar -->
     <header>
         <h1>Student Management</h1>
         <div class="nav">
             <a href="<?= site_url('students/create'); ?>">Add Record</a>
-            <input type="text" id="searchInput" placeholder="Search students...">
+            <form method="get" action="<?= site_url('students/index'); ?>">
+                <input type="text" name="search" placeholder="Search students..." value="<?= html_escape($search) ?>">
+            </form>
         </div>
     </header>
 
     <!-- Students List -->
-    <div style="height: 50px;"></div>
     <div class="students-list">
-        <?php foreach (html_escape($users) as $user): ?>
-            <div class="student-container">
-                <div>
-                    <div class="student-name"><?= $user['first_name'] ?> <?= $user['last_name'] ?></div>
-                    <div class="student-email"><?= $user['email'] ?></div>
+        <?php if (!empty($users)): ?>
+            <?php foreach (html_escape($users) as $user): ?>
+                <div class="student-container">
+                    <div>
+                        <div class="student-name"><?= $user['first_name'] ?> <?= $user['last_name'] ?></div>
+                        <div class="student-email"><?= $user['email'] ?></div>
+                    </div>
+                    <div class="actions">
+                        <a href="<?= site_url('students/update/'.$user['id']); ?>" class="action-button">Update</a>
+                        <a href="<?= site_url('students/delete/'.$user['id']); ?>" onclick="return confirm('Are you sure?');" class="action-button delete-button">Delete</a>
+                    </div>
                 </div>
-                <div class="actions">
-                    <a href="<?= site_url('students/update/'.$user['id']); ?>" class="action-button">Update</a>
-                    <a href="<?= site_url('students/delete/'.$user['id']); ?>" onclick="return confirm('Are you sure?');" class="action-button delete-button">Delete</a>
-                </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No students found.</p>
+        <?php endif; ?>
     </div>
+
+    <!-- Pagination -->
+    <?php if ($totalPages > 1): ?>
+        <div class="pagination">
+            <?php if ($currentPage > 1): ?>
+                <a href="?page=<?= $currentPage - 1 ?>&search=<?= urlencode($search) ?>" class="page-arrow">← Prev</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="?page=<?= $i ?>&search=<?= urlencode($search) ?>" class="page-link <?= $i == $currentPage ? 'active' : '' ?>">
+                    <?= $i ?>
+                </a>
+            <?php endfor; ?>
+
+            <?php if ($currentPage < $totalPages): ?>
+                <a href="?page=<?= $currentPage + 1 ?>&search=<?= urlencode($search) ?>" class="page-arrow">Next →</a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
 
     <!-- Footer -->
     <footer>
@@ -230,17 +269,5 @@
         <p>BSIT 3F2 Students | Mindoro State University</p>
     </footer>
 
-    <!-- Search JS -->
-    <script>
-        const searchInput = document.getElementById('searchInput');
-        const students = document.querySelectorAll('.student-container');
-
-        searchInput.addEventListener('keyup', function() {
-            const filter = this.value.toLowerCase();
-            students.forEach(student => {
-                student.style.display = student.innerText.toLowerCase().includes(filter) ? '' : 'none';
-            });
-        });
-    </script>
 </body>
 </html>

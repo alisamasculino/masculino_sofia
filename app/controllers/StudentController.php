@@ -17,25 +17,27 @@ class StudentController extends Controller {
 
     public function index()
     {
-        // Get search query
+        // Get search query safely
         $search = $this->io->get('search') ?? '';
 
-        // Pagination settings
-        $limit = 5; // number of records per page
-        $page  = (int)($this->io->get('page') ?? 1);
-        $offset = ($page - 1) * $limit;
+        // Prepare base query
+        $query = "SELECT * FROM students";
 
-        // Fetch students with search & pagination
-        $data['users'] = $this->StudentModel->search($search, $limit, $offset);
+        if ($search !== '') {
+            // Use prepared statements to prevent SQL injection
+            $query .= " WHERE first_name LIKE :search OR last_name LIKE :search OR email LIKE :search";
+            $params = [':search' => "%$search%"];
+            $data['users'] = $this->StudentModel->query($query, $params); 
+        } else {
+            $data['users'] = $this->StudentModel->all();
+        }
 
-        // Get total number of students for pagination
-        $total_students = $this->StudentModel->countSearch($search);
-        $data['total_pages'] = ceil($total_students / $limit);
-        $data['current_page'] = $page;
+        // Pass search term to view
         $data['search'] = $search;
 
         $this->call->view('students/index', $data);
     }
+
 
     public function create() 
     {

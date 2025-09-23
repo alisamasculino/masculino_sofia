@@ -173,15 +173,12 @@
             </div>
             
             <div class="p-6 md:p-8">
-                <form action="<?=site_url('students/update/'.$user['id']);?>" method="POST" class="space-y-6" novalidate>
+                <form action="<?=site_url('students/update');?>" method="POST" class="space-y-6" novalidate>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <!-- Image Container -->
-                        <div class="lg:col-span-1 image-container flex flex-col items-center justify-center">
-                            <div class="student-avatar mb-4">
-                                <?= substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1) ?>
-                            </div>
-                            <h3 class="text-white text-xl font-bold text-center"><?= html_escape($user['first_name']) ?> <?= html_escape($user['last_name']) ?></h3>
-                            <p class="text-white text-opacity-80 text-center mt-1">Student ID: <?= html_escape($user['id']) ?></p>
+                        <div class="lg:col-span-1 image-container">
+                            <img src="https://i.pinimg.com/1200x/67/a3/34/67a334572d9e4810f1a835d1bc7e7181.jpg" 
+                                 alt="Student Profile" class="profile-image">
                         </div>
                         
                         <!-- Form Fields Column -->

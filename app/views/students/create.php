@@ -103,19 +103,22 @@
             background-clip: text;
         }
         
-        .illustration-container {
+        .image-container {
             background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 100%);
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 30px;
+            height: 100%;
+            min-height: 300px;
         }
         
-        .illustration {
+        .profile-image {
             max-width: 100%;
             height: auto;
             filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -158,10 +161,10 @@
             <div class="p-6 md:p-8">
                 <form action="<?=site_url('students/create');?>" method="POST" class="space-y-6" novalidate>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- Illustration Column -->
-                        <div class="lg:col-span-1 illustration-container hidden lg:flex">
+                        <!-- Image Container -->
+                        <div class="lg:col-span-1 image-container">
                             <img src="https://cdni.iconscout.com/illustration/premium/thumb/student-registration-4268344-3551360.png" 
-                                 alt="Student Registration" class="illustration">
+                                 alt="Student Profile" class="profile-image">
                         </div>
                         
                         <!-- Form Fields Column -->
@@ -188,51 +191,10 @@
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                     <i class="fas fa-envelope text-red-500"></i>
-                                    Gmail Address
+                                    Email Address
                                 </label>
-                                <input type="email" name="email" placeholder="example@gmail.com" required 
-                                    pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
-                                    title="Please enter a valid Gmail address (example@gmail.com)"
+                                <input type="email" name="email" placeholder="student@example.com" required
                                     class="w-full px-4 py-3 rounded-xl form-input focus:outline-none" />
-                                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                                    <i class="fas fa-info-circle text-blue-500"></i>
-                                    Must be a valid Gmail address (example@gmail.com)
-                                </p>
-                            </div>
-
-                            <!-- Additional Fields for Enhanced Form -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                        <i class="fas fa-phone text-green-500"></i>
-                                        Phone Number
-                                    </label>
-                                    <input type="tel" name="phone" placeholder="+63 912 345 6789"
-                                        class="w-full px-4 py-3 rounded-xl form-input focus:outline-none" />
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                        <i class="fas fa-calendar text-purple-500"></i>
-                                        Enrollment Date
-                                    </label>
-                                    <input type="date" name="enrollment_date"
-                                        class="w-full px-4 py-3 rounded-xl form-input focus:outline-none" />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                    <i class="fas fa-book text-orange-500"></i>
-                                    Course/Program
-                                </label>
-                                <select name="course" class="w-full px-4 py-3 rounded-xl form-input focus:outline-none">
-                                    <option value="">Select a course</option>
-                                    <option value="BSIT">BS Information Technology</option>
-                                    <option value="BSCS">BS Computer Science</option>
-                                    <option value="BSIS">BS Information Systems</option>
-                                    <option value="BSE">BS Education</option>
-                                    <option value="BSA">BS Accountancy</option>
-                                </select>
                             </div>
 
                             <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-gray-200">
@@ -268,9 +230,9 @@
 
         form.addEventListener('submit', function(event) {
             const emailValue = emailInput.value.trim();
-            const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (!gmailPattern.test(emailValue)) {
+            if (!emailPattern.test(emailValue)) {
                 event.preventDefault();
                 
                 // Create a beautiful alert
@@ -281,7 +243,7 @@
                         <i class="fas fa-exclamation-triangle text-xl"></i>
                         <div>
                             <p class="font-semibold">Invalid Email Format</p>
-                            <p class="text-sm">Please enter a valid Gmail address (example@gmail.com).</p>
+                            <p class="text-sm">Please enter a valid email address.</p>
                         </div>
                         <button class="ml-auto text-white hover:text-gray-200" onclick="this.parentElement.parentElement.remove()">
                             <i class="fas fa-times"></i>

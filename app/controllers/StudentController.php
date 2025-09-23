@@ -17,7 +17,32 @@ class StudentController extends Controller {
 
     public function index()
     {
-        $data['users'] = $this->StudentModel->all(); 
+        $this->call->library('Pagination');
+
+        $q = (string) ($this->io->get('q') ?? '');
+        $page = (int) ($this->io->get('page') ?? 1);
+        $page = max(1, $page);
+
+        $per_page = 9;
+
+        $result = $this->StudentModel->search_paginated($q, $per_page, $page);
+        $data['users'] = $result['data'];
+
+        // Build pagination base URL with query string preserved (except page)
+        $baseUrl = 'students';
+        $queryString = '';
+        if ($q !== '') {
+            $queryString = '?q=' . urlencode($q);
+        }
+
+        // Initialize LavaLust Pagination
+        $this->pagination->set_theme('tailwind');
+        $this->pagination->set_options(['page_delimiter' => '?page=']);
+        $meta = $this->pagination->initialize($result['total'], $per_page, $page, $baseUrl . $queryString);
+        $data['page'] = $this->pagination->paginate();
+        $data['current_page'] = $meta['current'];
+        $data['q'] = $q;
+
         $this->call->view('students/index', $data);
     }
 

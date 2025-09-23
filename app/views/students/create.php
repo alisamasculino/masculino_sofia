@@ -163,7 +163,7 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <!-- Image Container -->
                         <div class="lg:col-span-1 image-container">
-                            <img src="https://cdni.iconscout.com/illustration/premium/thumb/student-registration-4268344-3551360.png" 
+                            <img src="https://i.pinimg.com/1200x/88/6d/ff/886dff1c67cea91cc2961efb267998cb.jpg" 
                                  alt="Student Profile" class="profile-image">
                         </div>
                         

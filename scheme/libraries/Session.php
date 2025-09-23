@@ -122,15 +122,10 @@ class Session {
 		));
 
 	    ini_set('session.use_trans_sid', 0);
-		ini_set('session.use_strict_mode', 1);
-		ini_set('session.use_cookies', 1);
-		ini_set('session.use_only_cookies', 1);
-
-		// Only set sid_length if supported (older PHP < 8.1)
-		if (PHP_VERSION_ID < 80100) {
-			ini_set('session.sid_length', $this->_get_sid_length());
-		}
-
+	    ini_set('session.use_strict_mode', 1);
+	    ini_set('session.use_cookies', 1);
+	    ini_set('session.use_only_cookies', 1);
+	    ini_set('session.sid_length', $this->_get_sid_length());
 
 	    if ( ! empty($this->config['sess_driver']) AND $this->config['sess_driver'] == 'file' ) {
 			require_once 'Session/FileSessionHandler.php';

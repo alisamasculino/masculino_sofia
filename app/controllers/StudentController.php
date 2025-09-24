@@ -36,6 +36,8 @@ class StudentController extends Controller {
         $users = $this->StudentModel->page($q, $records_per_page, $page);
         $data['users'] = $users['records'];
         $total_rows = $users['total_rows'];
+        $data['total_rows'] = $total_rows;
+        $data['q'] = $q;
 
         $this->pagination->set_options([
             'first_link'     => '⏮ First',

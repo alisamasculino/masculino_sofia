@@ -35,7 +35,8 @@ class StudentModel extends Model {
                 $data['total_rows'] = $countQuery->select_count('*', 'count')
                                                 ->get()['count'];
 
-                $data['records'] = $query->pagination($records_per_page, $page)
+                $data['records'] = $query->order_by('id', 'DESC')
+                                        ->pagination($records_per_page, $page)
                                         ->get_all();
 
                 return $data;

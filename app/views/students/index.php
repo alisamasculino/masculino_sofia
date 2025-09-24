@@ -184,11 +184,11 @@
             </div>
             
             <div class="flex flex-col sm:flex-row items-center gap-4">
-                <div class="relative">
+                <form class="relative" action="<?= site_url('students'); ?>" method="get">
                     <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                    <input id="searchInput" type="text" placeholder="Search students..." 
+                    <input name="q" type="text" placeholder="Search students..." value="<?= isset($q) ? html_escape($q) : '' ?>"
                         class="pl-10 pr-4 py-3 rounded-xl search-input w-full md:w-64 focus:outline-none"/>
-                </div>
+                </form>
                 <a href="<?=site_url('students/create');?>" 
                     class="flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-success shadow-lg">
                     <i class="fas fa-user-plus"></i>
@@ -205,7 +205,7 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700">Total Students</h3>
-                    <p class="text-2xl font-bold text-gradient"><?= count($users) ?></p>
+                    <p class="text-2xl font-bold text-gradient"><?= isset($total_rows) ? (int)$total_rows : count($users) ?></p>
                 </div>
             </div>
             
@@ -215,7 +215,7 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700">Active Records</h3>
-                    <p class="text-2xl font-bold text-gradient"><?= count($users) ?></p>
+                    <p class="text-2xl font-bold text-gradient"><?= isset($total_rows) ? (int)$total_rows : count($users) ?></p>
                 </div>
             </div>
             
@@ -281,7 +281,9 @@
   </div>
 
             <!-- Pagination Controls -->
-            <div id="pagination" class="flex justify-center p-4 gap-2 flex-wrap bg-white bg-opacity-50 rounded-b-xl"></div>
+            <div class="flex justify-center p-4 gap-2 flex-wrap bg-white bg-opacity-50 rounded-b-xl">
+                <?= isset($page) ? $page : '' ?>
+            </div>
         </section>
         
         <!-- Footer -->
@@ -294,108 +296,6 @@
     </div>
 
     <script>
-        const cardsPerPage = 8;
-        const cards = document.querySelectorAll(".student-card");
-        const pagination = document.getElementById("pagination");
-        const searchInput = document.getElementById("searchInput");
-        const studentsContainer = document.getElementById("studentsContainer");
-        let currentPage = 1;
-
-        function getFilteredCards() {
-            let filter = searchInput.value.toLowerCase();
-            return Array.from(cards).filter(card => card.innerText.toLowerCase().includes(filter));
-        }
-
-        function displayCards(page) {
-            let filteredCards = getFilteredCards();
-            let start = (page - 1) * cardsPerPage;
-            let end = start + cardsPerPage;
-
-            // Hide all cards first
-            cards.forEach(card => card.style.display = "none");
-            
-            // Show only cards for current page
-            filteredCards.forEach((card, index) => {
-                if (index >= start && index < end) {
-                    card.style.display = "block";
-                }
-            });
-            
-            // Update grid layout
-            studentsContainer.innerHTML = "";
-            filteredCards.forEach((card, index) => {
-                if (index >= start && index < end) {
-                    studentsContainer.appendChild(card);
-                }
-            });
-        }
-
-        function setupPagination() {
-            pagination.innerHTML = "";
-            let filteredCards = getFilteredCards();
-            let pageCount = Math.ceil(filteredCards.length / cardsPerPage);
-
-            if (pageCount === 0) {
-                pagination.innerHTML = '<p class="text-gray-600 py-2">No student records found</p>';
-                return;
-            }
-
-            // Prev button
-            let prevBtn = document.createElement("button");
-            prevBtn.innerHTML = '<i class="fas fa-chevron-left mr-1"></i> Prev';
-            prevBtn.className = "px-3 py-2 rounded-lg pagination-btn flex items-center text-sm";
-            prevBtn.disabled = currentPage === 1;
-            if (currentPage === 1) prevBtn.classList.add("opacity-50", "cursor-not-allowed");
-            prevBtn.addEventListener("click", () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    displayCards(currentPage);
-                    setupPagination();
-                }
-            });
-            pagination.appendChild(prevBtn);
-
-            // Page numbers
-            for (let i = 1; i <= pageCount; i++) {
-                let btn = document.createElement("button");
-                btn.innerText = i;
-                btn.className = "px-3 py-2 rounded-lg pagination-btn text-sm " +
-                                (i === currentPage ? "active text-white" : "");
-                btn.addEventListener("click", () => {
-                    currentPage = i;
-                    displayCards(currentPage);
-                    setupPagination();
-                });
-                pagination.appendChild(btn);
-            }
-
-            // Next button
-            let nextBtn = document.createElement("button");
-            nextBtn.innerHTML = 'Next <i class="fas fa-chevron-right ml-1"></i>';
-            nextBtn.className = "px-3 py-2 rounded-lg pagination-btn flex items-center text-sm";
-            nextBtn.disabled = currentPage === pageCount;
-            if (currentPage === pageCount) nextBtn.classList.add("opacity-50", "cursor-not-allowed");
-            nextBtn.addEventListener("click", () => {
-                if (currentPage < pageCount) {
-                    currentPage++;
-                    displayCards(currentPage);
-                    setupPagination();
-                }
-            });
-            pagination.appendChild(nextBtn);
-        }
-
-        function refreshCards() {
-            currentPage = 1;
-            displayCards(currentPage);
-            setupPagination();
-        }
-
-        // Event: Search input
-        searchInput.addEventListener("keyup", refreshCards);
-
-        // Initialize
-        refreshCards();
     </script>
 </body>
 </html>

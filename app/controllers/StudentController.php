@@ -10,17 +10,10 @@ class StudentController extends Controller {
     public function __construct()
     {
         parent::__construct();
-
-        $this->call->database();
-        $this->call->model('StudentModel');
-        $this->call->library('pagination');
-
     }
 
     public function index()
     {
-       $this->call->model('StudentModel');
-
         $page = 1;
         if(isset($_GET['page']) && ! empty($_GET['page'])) {
             $page = $this->io->get('page');

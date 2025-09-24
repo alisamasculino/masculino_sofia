@@ -162,6 +162,42 @@
             background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 100%);
       color: white;
     }
+    
+        /* Center and style server-side pagination output */
+        nav ul.pagination {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        ul.pagination li {
+            list-style: none;
+        }
+        ul.pagination li a,
+        ul.pagination li span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(26, 42, 108, 0.2);
+            transition: all 0.3s ease;
+            color: #1f2937; /* gray-800 */
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        ul.pagination li a:hover {
+            background: rgba(26, 42, 108, 0.1);
+            transform: translateY(-1px);
+        }
+        ul.pagination li.active a,
+        ul.pagination li.active span {
+            background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 100%);
+            color: #ffffff;
+            border-color: transparent;
+        }
   </style>
 </head>
 <body class="min-h-screen p-4 md:p-6 relative">
@@ -259,7 +295,7 @@
                         </div>
                         <div class="flex items-center gap-2 text-gray-700">
                             <i class="fas fa-calendar text-green-500"></i>
-                            <span class="text-sm">Joined: 2023</span>
+                            <span class="text-sm">Joined: 2025</span>
                         </div>
                     </div>
                     

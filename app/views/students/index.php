@@ -6,13 +6,13 @@
     <title>Student Records Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+  <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
-        body {
+    body {
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
+      margin: 0;
+      padding: 0;
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             min-height: 100vh;
             position: relative;
@@ -22,7 +22,7 @@
         body::before {
             content: "";
             position: fixed;
-            top: 0;
+      top: 0;
             left: 0;
             width: 100%;
             height: 100%;
@@ -46,7 +46,7 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+      transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
@@ -93,7 +93,7 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(26, 42, 108, 0.2);
-            transition: all 0.3s ease;
+      transition: all 0.3s ease;
         }
         
         .search-input:focus {
@@ -137,9 +137,9 @@
             height: 80px;
             border-radius: 50%;
             background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
             color: white;
             font-size: 2rem;
             font-weight: bold;
@@ -150,19 +150,19 @@
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(26, 42, 108, 0.2);
-            transition: all 0.3s ease;
-        }
-        
+      transition: all 0.3s ease;
+    }
+    
         .pagination-btn:hover {
             background: rgba(26, 42, 108, 0.1);
-            transform: translateY(-1px);
-        }
-        
+      transform: translateY(-1px);
+    }
+    
         .pagination-btn.active {
             background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 100%);
-            color: white;
-        }
-    </style>
+      color: white;
+    }
+  </style>
 </head>
 <body class="min-h-screen p-4 md:p-6 relative">
     <!-- Floating decorative elements -->
@@ -194,8 +194,8 @@
                     <i class="fas fa-user-plus"></i>
                     <span>Add New Student</span>
                 </a>
-            </div>
-        </header>
+    </div>
+  </header>
 
         <!-- Stats Section -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -223,7 +223,7 @@
                 <div class="p-3 rounded-full bg-purple-100 text-purple-600">
                     <i class="fas fa-database text-2xl"></i>
                 </div>
-                <div>
+        <div>
                     <h3 class="text-lg font-semibold text-gray-700">System Status</h3>
                     <p class="text-2xl font-bold text-gradient">Online</p>
                 </div>
@@ -241,21 +241,21 @@
             </div>
             
             <div id="studentsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6 bg-white bg-opacity-50 rounded-b-xl">
-                <?php foreach (html_escape($users) as $user): ?>
+                <?php foreach ($users as $user): ?>
                 <div class="student-card p-5">
                     <div class="student-avatar mb-4">
-                        <?= substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1) ?>
+                        <?= html_escape(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1)) ?>
                     </div>
                     
                     <div class="text-center mb-4">
-                        <h3 class="text-xl font-bold text-gray-800"><?= ($user['first_name']);?> <?= ($user['last_name']);?></h3>
-                        <p class="text-gray-600 text-sm">Student ID: <?= ($user['id']);?></p>
+                        <h3 class="text-xl font-bold text-gray-800"><?= html_escape($user['first_name']);?> <?= html_escape($user['last_name']);?></h3>
+                        <p class="text-gray-600 text-sm">Student ID: <?= html_escape($user['id']);?></p>
                     </div>
                     
                     <div class="mb-4">
                         <div class="flex items-center gap-2 text-gray-700 mb-2">
                             <i class="fas fa-envelope text-blue-500"></i>
-                            <span class="text-sm truncate"><?= ($user['email']);?></span>
+                            <span class="text-sm truncate"><?= html_escape($user['email']);?></span>
                         </div>
                         <div class="flex items-center gap-2 text-gray-700">
                             <i class="fas fa-calendar text-green-500"></i>
@@ -275,10 +275,10 @@
                             <i class="fas fa-trash"></i>
                             <span>Delete</span>
                         </a>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  </div>
 
             <!-- Pagination Controls -->
             <div id="pagination" class="flex justify-center p-4 gap-2 flex-wrap bg-white bg-opacity-50 rounded-b-xl"></div>

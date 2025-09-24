@@ -45,7 +45,7 @@ class Database {
      *
      * @var object
      */
-    private static $instance = NULL;
+    private static $instances = [];
     
     /**
      * Database Instance
@@ -253,8 +253,15 @@ class Database {
      */
     public static function instance($dbname)
     {
-        self::$instance = new Database($dbname);
-        return self::$instance;
+        // Normalize key for default/main connection
+        $key = is_null($dbname) ? 'main' : (string) $dbname;
+
+        if (isset(self::$instances[$key]) && self::$instances[$key] instanceof Database) {
+            return self::$instances[$key];
+        }
+
+        self::$instances[$key] = new Database($dbname);
+        return self::$instances[$key];
     }
 
     /**

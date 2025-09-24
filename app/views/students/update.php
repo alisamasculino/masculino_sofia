@@ -173,7 +173,7 @@
             </div>
             
             <div class="p-6 md:p-8">
-                <form action="<?=site_url('students/update');?>" method="POST" class="space-y-6" novalidate>
+                <form action="<?=site_url('students/update/'.$user['id']);?>" method="POST" class="space-y-6" novalidate>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <!-- Image Container -->
                         <div class="lg:col-span-1 image-container">

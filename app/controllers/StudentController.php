@@ -47,6 +47,8 @@ class StudentController extends Controller {
         $this->pagination->set_theme('bootstrap');
         $this->pagination->initialize($total_rows, $records_per_page, $page, 'students?q='.$q);
         $data['page'] = $this->pagination->paginate();
+        $data['current_page'] = $page;
+        $data['q'] = $q;
 
         $this->call->view('students/index', $data);
     }
@@ -95,7 +97,8 @@ class StudentController extends Controller {
                 'email'      => $email,
             );
 
-            if ($this->StudentModel->update($id, $data)) {
+            $updated = $this->StudentModel->update($id, $data);
+            if ($updated !== false) {
                 redirect();
             } else {
                 echo 'Error updating student.';

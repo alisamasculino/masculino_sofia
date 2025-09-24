@@ -10,10 +10,17 @@ class StudentController extends Controller {
     public function __construct()
     {
         parent::__construct();
+
+        $this->call->database();
+        $this->call->model('StudentModel');
+        $this->call->library('pagination');
+
     }
 
     public function index()
     {
+       $this->call->model('StudentModel');
+
         $page = 1;
         if(isset($_GET['page']) && ! empty($_GET['page'])) {
             $page = $this->io->get('page');
@@ -40,8 +47,6 @@ class StudentController extends Controller {
         $this->pagination->set_theme('bootstrap');
         $this->pagination->initialize($total_rows, $records_per_page, $page, 'students?q='.$q);
         $data['page'] = $this->pagination->paginate();
-        $data['current_page'] = $page;
-        $data['q'] = $q;
 
         $this->call->view('students/index', $data);
     }
@@ -90,8 +95,7 @@ class StudentController extends Controller {
                 'email'      => $email,
             );
 
-            $updated = $this->StudentModel->update($id, $data);
-            if ($updated !== false) {
+            if ($this->StudentModel->update($id, $data)) {
                 redirect();
             } else {
                 echo 'Error updating student.';

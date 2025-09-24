@@ -23,13 +23,11 @@ class StudentModel extends Model {
             } else {
                 $query = $this->db->table('students');
 
-                 // Grouped LIKE conditions across name and email
-                 $like = '%'.$q.'%';
-                 $query->grouped(function($db) use ($like) {
-                     $db->like('first_name', $like)
-                        ->or_like('last_name', $like)
-                        ->or_like('email', $like);
-                 });
+                // Build LIKE conditions
+                $query->like('id', '%'.$q.'%')
+                    ->or_like('first_name', '%'.$q.'%')
+                    ->or_like('last_name', '%'.$q.'%')
+                    ->or_like('email', '%'.$q.'%');
                     
                 // Clone before pagination
                 $countQuery = clone $query;

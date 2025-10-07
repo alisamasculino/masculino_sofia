@@ -193,7 +193,7 @@
                                     <i class="fas fa-envelope text-red-500"></i>
                                     Email Address
                                 </label>
-                                <input type="email" name="email" placeholder="student@example.com" required
+                                <input type="email" name="email" placeholder="student@gmail.com" required
                                     class="w-full px-4 py-3 rounded-xl form-input focus:outline-none" />
                             </div>
 

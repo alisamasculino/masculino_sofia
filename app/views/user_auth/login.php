@@ -157,9 +157,9 @@
                     <p class="error text-center mb-4"><?= htmlspecialchars($error) ?></p>
                 <?php endif; ?>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                    <div class="image-container">
-                        <img src="https://i.pinimg.com/1200x/20/75/d3/2075d3059fab993236cdda1aabab82f7.jpg" alt="Login Illustration" class="max-w-full h-auto rounded-lg shadow-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                    <div class="image-container" style="height: 100%">
+                        <img src="https://i.pinimg.com/1200x/20/75/d3/2075d3059fab993236cdda1aabab82f7.jpg" alt="Login Illustration" class="w-full h-full object-cover rounded-lg shadow-lg">
                     </div>
                     <div>
                         <form method="post" action="<?= site_url('login') ?>" class="space-y-5" novalidate>
@@ -168,7 +168,7 @@
                                     <i class="fas fa-user text-blue-500"></i>
                                     Username
                                 </label>
-                                <input type="text" name="username" placeholder="Enter username or email" required
+                                <input type="text" name="username" placeholder="student@gmail.com" required
                                     class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
                             </div>
 

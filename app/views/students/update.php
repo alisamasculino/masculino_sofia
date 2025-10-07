@@ -245,39 +245,91 @@
         const form = document.querySelector('form');
         const emailInput = form.querySelector('input[name="email"]');
 
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', async function(event) {
             const emailValue = emailInput.value.trim();
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+            // Validate email first
             if (!emailPattern.test(emailValue)) {
                 event.preventDefault();
-                
-                // Create a beautiful alert
                 const alertDiv = document.createElement('div');
                 alertDiv.className = 'fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm';
                 alertDiv.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-exclamation-triangle text-xl"></i>
-                        <div>
-                            <p class="font-semibold">Invalid Email Format</p>
-                            <p class="text-sm">Please enter a valid email address.</p>
-                        </div>
-                        <button class="ml-auto text-white hover:text-gray-200" onclick="this.parentElement.parentElement.remove()">
-                            <i class="fas fa-times"></i>
-                        </button>
+                    <div class=\"flex items-center gap-3\">\n\
+                        <i class=\"fas fa-exclamation-triangle text-xl\"></i>\n\
+                        <div>\n\
+                            <p class=\"font-semibold\">Invalid Email Format</p>\n\
+                            <p class=\"text-sm\">Please enter a valid email address.</p>\n\
+                        </div>\n\
+                        <button class=\"ml-auto text-white hover:text-gray-200\" onclick=\"this.parentElement.parentElement.remove()\">\n\
+                            <i class=\"fas fa-times\"></i>\n\
+                        </button>\n\
                     </div>
                 `;
                 document.body.appendChild(alertDiv);
-                
-                // Remove alert after 5 seconds
-                setTimeout(() => {
-                    if (alertDiv.parentElement) {
-                        alertDiv.remove();
-                    }
-                }, 5000);
-                
+                setTimeout(() => { if (alertDiv.parentElement) alertDiv.remove(); }, 5000);
                 emailInput.focus();
                 emailInput.classList.add('border-red-500');
+                return;
+            }
+
+            // Submit via AJAX then redirect back to index with query to show updated record
+            event.preventDefault();
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span> Saving...</span>';
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    redirect: 'follow'
+                });
+
+                if (response.ok) {
+                    // Redirect to index with email as search to highlight updated record
+                    window.location.href = '<?= base_url('students/index'); ?>?q=' + encodeURIComponent(emailValue);
+                    return;
+                }
+
+                const errDiv = document.createElement('div');
+                errDiv.className = 'fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm';
+                errDiv.innerHTML = `
+                    <div class=\"flex items-center gap-3\">\n\
+                        <i class=\"fas fa-times-circle text-xl\"></i>\n\
+                        <div>\n\
+                            <p class=\"font-semibold\">Failed to update student</p>\n\
+                            <p class=\"text-sm\">Please try again.</p>\n\
+                        </div>\n\
+                        <button class=\"ml-auto text-white hover:text-gray-200\" onclick=\"this.parentElement.parentElement.remove()\">\n\
+                            <i class=\"fas fa-times\"></i>\n\
+                        </button>\n\
+                    </div>
+                `;
+                document.body.appendChild(errDiv);
+                setTimeout(() => { if (errDiv.parentElement) errDiv.remove(); }, 5000);
+            } catch (e) {
+                const errDiv = document.createElement('div');
+                errDiv.className = 'fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm';
+                errDiv.innerHTML = `
+                    <div class=\"flex items-center gap-3\">\n\
+                        <i class=\"fas fa-times-circle text-xl\"></i>\n\
+                        <div>\n\
+                            <p class=\"font-semibold\">Network error</p>\n\
+                            <p class=\"text-sm\">Please check your connection and try again.</p>\n\
+                        </div>\n\
+                        <button class=\"ml-auto text-white hover:text-gray-200\" onclick=\"this.parentElement.parentElement.remove()\">\n\
+                            <i class=\"fas fa-times\"></i>\n\
+                        </button>\n\
+                    </div>
+                `;
+                document.body.appendChild(errDiv);
+                setTimeout(() => { if (errDiv.parentElement) errDiv.remove(); }, 5000);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
             }
         });
 

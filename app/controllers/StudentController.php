@@ -38,11 +38,9 @@ class StudentController extends Controller {
 
         $records_per_page = 8;
 
-        $users = $this->StudentModel->page($q, $records_per_page, $page);
-        $data['users'] = $users['records'];
-        $total_rows = $users['total_rows'];
-        $data['total_rows'] = $total_rows;
-        $data['q'] = $q;
+        $all = $this->StudentsModel->page($q, $records_per_page, $page);
+        $data['users'] = $all['records'];
+        $total_rows = $all['total_rows'];
 
         $this->pagination->set_options([
             'first_link'     => '⏮ First',
@@ -51,10 +49,10 @@ class StudentController extends Controller {
             'prev_link'      => '← Prev',
             'page_delimiter' => '&page='
         ]);
-        $this->pagination->set_theme('bootstrap');
-        $base = site_url('students/index');
-        $baseWithQuery = $q !== '' ? $base.'?q='.urlencode($q) : $base;
-        $this->pagination->initialize($total_rows, $records_per_page, $page, $baseWithQuery);
+        $this->pagination->set_theme('bootstrap'); // themes: bootstrap, tailwind, custom
+        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('users/index').'?q='.$q);
+
+        // Send data to view
         $data['page'] = $this->pagination->paginate();
         $data['current_role'] = $this->session->userdata('role') ?? 'user';
         $this->call->view('students/index', $data);
@@ -62,9 +60,9 @@ class StudentController extends Controller {
 
     public function create() 
     {
-        //if (!$this->session->userdata('user_id')) {
-        //    redirect('login');
-        //}
+        if (!$this->session->userdata('user_id')) {
+            redirect('login');
+        }
         
 
         if($this->io->method() == 'post') {
@@ -92,9 +90,9 @@ class StudentController extends Controller {
 
     public function update($id)
     {
-        //if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
-        // redirect('login');
-        //}
+        if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
+            redirect('login');
+        }
 
         $user = $this->StudentModel->find($id);
         if (!$user) {   
@@ -128,9 +126,9 @@ class StudentController extends Controller {
 
     public function delete($id)
     {
-        // if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
-        //    redirect('login');
-        //}
+        if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
+            redirect('login');
+        }
 
         if ($this->StudentModel->delete($id)) {
             redirect('students/index');

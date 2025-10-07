@@ -235,6 +235,18 @@
                 toggleIcon.textContent = '👁️';
             }
         }
+
+        // Show spinner on submit
+        (function() {
+            const form = document.querySelector('form');
+            if (!form) return;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (!submitBtn) return;
+            form.addEventListener('submit', function() {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span> Registering...</span>';
+            });
+        })();
     </script>
 
 </body>

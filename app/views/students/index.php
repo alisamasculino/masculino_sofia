@@ -232,14 +232,14 @@
                     <a href="<?=site_url('students/create');?>" 
                         class="w-full flex items-center justify-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-success shadow-lg">
                         <i class="fas fa-user-plus"></i>
-                        <span>Add New Student</span>
+                        <span>Add New Record</span>
                     </a>
                 </div>
             <?php else: ?>
                 <form action="<?= site_url('logout'); ?>" method="post">
                     <button type="submit" class="flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-danger shadow-lg">
                         <i class="fas fa-right-from-bracket"></i>
-                        <span>Logout</span>
+                        <span>Logout Account</span>
                     </button>
                 </form>
             <?php endif; ?>

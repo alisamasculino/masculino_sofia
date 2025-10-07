@@ -141,7 +141,7 @@
                 </div>
             </div>
             
-            <a href="<?=base_url('students/index');?>" 
+            <a href="<?=site_url('students/index');?>" 
                 class="flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-secondary shadow-lg">
                 <i class="fas fa-arrow-left"></i>
                 <span>Back to Students</span>

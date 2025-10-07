@@ -232,7 +232,7 @@
                     <a href="<?=site_url('students/create');?>" 
                         class="w-full flex items-center justify-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-success shadow-lg">
                         <i class="fas fa-user-plus"></i>
-                        <span>Add New Record</span>
+                        <span>Add Record</span>
                     </a>
                 </div>
             <?php else: ?>

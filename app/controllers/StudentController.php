@@ -42,15 +42,17 @@ class StudentController extends Controller {
         $data['users'] = $all['records'];
         $total_rows = $all['total_rows'];
 
+        $delimiter = ($q !== '') ? '&page=' : '?page=';
         $this->pagination->set_options([
             'first_link'     => '⏮ First',
             'last_link'      => 'Last ⏭',
             'next_link'      => 'Next →',
             'prev_link'      => '← Prev',
-            'page_delimiter' => '&page='
+            'page_delimiter' => $delimiter
         ]);
         $this->pagination->set_theme('bootstrap'); // themes: bootstrap, tailwind, custom
-        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('users/index').'?q='.$q);
+        $basePath = 'students/index' . ($q !== '' ? ('?q=' . urlencode($q)) : '');
+        $this->pagination->initialize($total_rows, $records_per_page, $page, $basePath);
 
         // Send data to view
         $data['page'] = $this->pagination->paginate();

@@ -60,9 +60,10 @@ class StudentController extends Controller {
 
     public function create() 
     {
-        if (!$this->session->userdata('user_id')) {
-            redirect('login');
-        }
+        //if (!$this->session->userdata('user_id')) {
+        //    redirect('login');
+        //}
+        
 
         if($this->io->method() == 'post') {
             $first_name = $this->io->post('first_name');
@@ -89,9 +90,9 @@ class StudentController extends Controller {
 
     public function update($id)
     {
-        if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
-            redirect('login');
-        }
+        //if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
+        // redirect('login');
+        //}
 
         $user = $this->StudentModel->find($id);
         if (!$user) {   
@@ -125,9 +126,9 @@ class StudentController extends Controller {
 
     public function delete($id)
     {
-        if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
-            redirect('login');
-        }
+        // if (!$this->session->userdata('user_id') || $this->session->userdata('role') !== 'admin') {
+        //    redirect('login');
+        //}
 
         if ($this->StudentModel->delete($id)) {
             redirect('students/index');

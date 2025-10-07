@@ -141,7 +141,7 @@ class StudentController extends Controller {
             $username = $this->io->post('username');
             $password = $this->io->post('password');
 
-            $user = $this->StudentsModel->user_login($username, $password);
+            $user = $this->StudentModel->user_login($username, $password);
             if ($user) {
                 $this->session->set_userdata('user_id', $user['id']);
                 $this->session->set_userdata('username', $user['username']);

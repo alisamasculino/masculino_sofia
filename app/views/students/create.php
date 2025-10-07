@@ -275,7 +275,7 @@
 
                 // If request succeeds, go back to index and filter by the new email
                 if (response.ok) {
-                    window.location.href = '<?= base_url('students/index'); ?>?q=' + encodeURIComponent(emailValue);
+                    window.location.href = '<?= site_url('students/index'); ?>';
                     return;
                 }
 

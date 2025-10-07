@@ -289,8 +289,8 @@
                 });
 
                 if (response.ok) {
-                    // Redirect to index with email as search to highlight updated record
-                    window.location.href = '<?= base_url('students/index'); ?>?q=' + encodeURIComponent(emailValue);
+                    // Redirect to index
+                    window.location.href = '<?= site_url('students/index'); ?>';
                     return;
                 }
 

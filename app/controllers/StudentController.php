@@ -57,6 +57,8 @@ class StudentController extends Controller {
         // Send data to view
         $data['page'] = $this->pagination->paginate();
         $data['current_role'] = $this->session->userdata('role') ?? 'user';
+        $data['q'] = $q; // persist search term in the view
+        $data['total_rows'] = $total_rows; // optional: expose total count
         $this->call->view('students/index', $data);
     }
 

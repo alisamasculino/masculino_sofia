@@ -159,7 +159,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                     <div class="image-container">
-                        <img src="https://i.pinimg.com/1200x/e0/51/8b/e0518b35cc20c8af13c8a376307ba286.jpg" alt="Login Illustration" class="max-w-full h-auto rounded-lg shadow-lg">
+                        <img src="https://i.pinimg.com/1200x/20/75/d3/2075d3059fab993236cdda1aabab82f7.jpg" alt="Login Illustration" class="max-w-full h-auto rounded-lg shadow-lg">
                     </div>
                     <div>
                         <form method="post" action="<?= site_url('login') ?>" class="space-y-5" novalidate>

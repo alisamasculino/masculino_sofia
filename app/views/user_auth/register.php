@@ -159,7 +159,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
                     <div class="image-container h-full">
-                        <img src="https://i.pinimg.com/736x/c0/50/e4/c050e4b7cd705bb390c3ce021cc5f80d.jpg" alt="Register Illustration" class="w-full h-full object-cover rounded-lg shadow-lg">
+                        <img src="https://i.pinimg.com/1200x/94/df/12/94df127939057d1d14aab9b5752828e8.jpg" alt="Register Illustration" class="w-full h-full object-cover rounded-lg shadow-lg">
                     </div>
                     <div class="h-full">
                         <form method="post" action="<?= site_url('register') ?>" class="space-y-5" novalidate>

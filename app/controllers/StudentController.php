@@ -170,7 +170,7 @@ class StudentController extends Controller {
                 'role' => $role
             ];
 
-            if ($this->StudentsModel->user_register($data)) {
+            if ($this->StudentModel->user_register($data)) {
                 redirect('login');
             } else {
                 $data['error'] = 'Registration failed. Please try again.';

@@ -228,14 +228,13 @@
         const form = document.querySelector('form');
         const emailInput = form.querySelector('input[name="email"]');
 
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', async function(event) {
             const emailValue = emailInput.value.trim();
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+            // Validate email first
             if (!emailPattern.test(emailValue)) {
                 event.preventDefault();
-                
-                // Create a beautiful alert
                 const alertDiv = document.createElement('div');
                 alertDiv.className = 'fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm';
                 alertDiv.innerHTML = `
@@ -251,16 +250,72 @@
                     </div>
                 `;
                 document.body.appendChild(alertDiv);
-                
-                // Remove alert after 5 seconds
                 setTimeout(() => {
-                    if (alertDiv.parentElement) {
-                        alertDiv.remove();
-                    }
+                    if (alertDiv.parentElement) alertDiv.remove();
                 }, 5000);
-                
                 emailInput.focus();
                 emailInput.classList.add('border-red-500');
+                return;
+            }
+
+            // Submit via AJAX to avoid server redirect and then show new record
+            event.preventDefault();
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span> Saving...</span>';
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    redirect: 'follow'
+                });
+
+                // If request succeeds, go back to index and filter by the new email
+                if (response.ok) {
+                    window.location.href = '<?= base_url('students/index'); ?>?q=' + encodeURIComponent(emailValue);
+                    return;
+                }
+
+                // Handle non-OK responses
+                const errDiv = document.createElement('div');
+                errDiv.className = 'fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm';
+                errDiv.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-times-circle text-xl"></i>
+                        <div>
+                            <p class="font-semibold">Failed to create student</p>
+                            <p class="text-sm">Please try again.</p>
+                        </div>
+                        <button class="ml-auto text-white hover:text-gray-200" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(errDiv);
+                setTimeout(() => { if (errDiv.parentElement) errDiv.remove(); }, 5000);
+            } catch (e) {
+                const errDiv = document.createElement('div');
+                errDiv.className = 'fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm';
+                errDiv.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-times-circle text-xl"></i>
+                        <div>
+                            <p class="font-semibold">Network error</p>
+                            <p class="text-sm">Please check your connection and try again.</p>
+                        </div>
+                        <button class="ml-auto text-white hover:text-gray-200" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(errDiv);
+                setTimeout(() => { if (errDiv.parentElement) errDiv.remove(); }, 5000);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
             }
         });
 
@@ -276,7 +331,6 @@
                 this.parentElement.classList.add('transform', 'transition', 'duration-200');
                 this.parentElement.style.transform = 'translateY(-2px)';
             });
-            
             input.addEventListener('blur', function() {
                 this.parentElement.style.transform = 'translateY(0)';
             });

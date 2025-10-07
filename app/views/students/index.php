@@ -220,19 +220,37 @@
             </div>
         </div>
         
-        <div class="flex flex-col sm:flex-row items-center gap-4">
-            <form class="relative" action="<?= site_url('students'); ?>" method="get">
+        <div class="flex flex-col items-end gap-2 w-full md:w-auto">
+            <div class="flex items-center gap-4 w-full md:w-auto justify-end">
+            <form class="relative" action="<?= site_url('students/index'); ?>" method="get">
                 <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                 <input name="q" type="text" placeholder="Search students..." value="<?= isset($q) ? html_escape($q) : '' ?>"
                     class="pl-10 pr-4 py-3 rounded-xl search-input w-full md:w-64 focus:outline-none"/>
             </form>
-
             <?php if($current_role === 'admin'): ?>
-            <a href="<?=site_url('students/create');?>" 
-                class="flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-success shadow-lg">
-                <i class="fas fa-user-plus"></i>
-                <span>Add New Student</span>
-            </a>
+                <a href="<?=site_url('students/create');?>" 
+                    class="flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-success shadow-lg">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add New Student</span>
+                </a>
+            <?php else: ?>
+                <form action="<?= site_url('logout'); ?>" method="post">
+                    <button type="submit" class="flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-danger shadow-lg">
+                        <i class="fas fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            <?php endif; ?>
+            </div>
+            <?php if($current_role === 'admin'): ?>
+            <div class="w-full flex justify-end">
+                <form action="<?= site_url('logout'); ?>" method="post">
+                    <button type="submit" class="flex items-center gap-2 text-white font-semibold px-5 py-3 rounded-xl btn-danger shadow-lg">
+                        <i class="fas fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
             <?php endif; ?>
         </div>
     </header>

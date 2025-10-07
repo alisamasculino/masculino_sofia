@@ -18,6 +18,7 @@ class StudentModel extends Model {
 
 
     public function page($q = '', $records_per_page = null, $page = null) {
+ 
         if (is_null($page)) {
             return $this->db->table('students')->get_all();
         } else {
@@ -25,17 +26,17 @@ class StudentModel extends Model {
 
             // Build LIKE conditions
             $query->like('id', '%'.$q.'%')
-                  ->or_like('first_name', '%'.$q.'%')
-                  ->or_like('last_name', '%'.$q.'%')
-                  ->or_like('email', '%'.$q.'%');
-                    
+                ->or_like('first_name', '%'.$q.'%')
+                ->or_like('last_name', '%'.$q.'%')
+                ->or_like('email', '%'.$q.'%');
+                
             // Clone before pagination
             $countQuery = clone $query;
 
             $data['total_rows'] = $countQuery->select_count('*', 'count')
-                                             ->get()['count'];
+                                            ->get()['count'];
 
-           $data['records'] = $query->order_by('id', 'ASC')
+            $data['records'] = $query->order_by('id', 'ASC')
                                     ->pagination($records_per_page, $page)
                                     ->get_all();
 

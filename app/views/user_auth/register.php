@@ -63,16 +63,6 @@
             box-shadow: 0 5px 15px rgba(26, 42, 108, 0.4);
         }
 
-        .btn-secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
-        }
-
         .form-input {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(5px);
@@ -162,82 +152,62 @@
                 <?php endif; ?>
 
                 <form method="post" action="<?= site_url('register') ?>" class="space-y-5" novalidate>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Image Side -->
-                        <div class="lg:col-span-1 image-container">
-                            <div>
-                                <div class="login-icon">
-                                    <i class="fas fa-user-plus text-3xl text-white"></i>
-                                </div>
-                                <div class="text-center text-white">
-                                    <h3 class="text-lg font-semibold mb-1">Join Us!</h3>
-                                    <p class="text-sm text-white text-opacity-80">Create your account now</p>
-                                </div>
-                            </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+                                <i class="fas fa-user text-blue-500"></i>
+                                Username
+                            </label>
+                            <input type="text" name="username" placeholder="Enter username" required
+                                class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
                         </div>
 
-                        <!-- Form Side -->
-                        <div class="lg:col-span-2 space-y-5">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
-                                    <i class="fas fa-user text-blue-500"></i>
-                                    Username
-                                </label>
-                                <input type="text" name="username" placeholder="Enter username" required
-                                    class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
-                            </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+                                <i class="fas fa-envelope text-green-500"></i>
+                                Email
+                            </label>
+                            <input type="email" name="email" placeholder="Enter email" required
+                                class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
+                        </div>
 
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
-                                    <i class="fas fa-envelope text-green-500"></i>
-                                    Email
-                                </label>
-                                <input type="email" name="email" placeholder="Enter email" required
-                                    class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
-                                    <i class="fas fa-lock text-red-500"></i>
-                                    Password
-                                </label>
-                                <div class="relative">
-                                    <input type="password" name="password" id="password" placeholder="Enter password" required
-                                        class="w-full px-3 py-2 pr-10 rounded-lg form-input focus:outline-none text-sm" />
-                                    <button type="button" onclick="togglePassword()"
-                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none text-sm font-bold">
-                                        <span id="password-toggle">👁️</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
-                                    <i class="fas fa-user-tag text-purple-500"></i>
-                                    Role
-                                </label>
-                                <select name="role"
-                                        class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm">
-                                    <option value="user" selected>User</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </div>
-
-                            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-3 border-t border-gray-200">
-                                <button type="submit"
-                                    class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg btn-primary text-white font-semibold shadow-lg text-sm">
-                                    <i class="fas fa-user-plus"></i>
-                                    Register
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+                                <i class="fas fa-lock text-red-500"></i>
+                                Password
+                            </label>
+                            <div class="relative">
+                                <input type="password" name="password" id="password" placeholder="Enter password" required
+                                    class="w-full px-3 py-2 pr-10 rounded-lg form-input focus:outline-none text-sm" />
+                                <button type="button" onclick="togglePassword()"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none text-sm font-bold">
+                                    <span id="password-toggle">👁️</span>
                                 </button>
                             </div>
-
-                            <div class="text-center pt-3 border-t border-gray-200">
-                                <p class="text-gray-600 text-xs">
-                                    Already have an account? 
-                                    <a href="<?= site_url('login') ?>" class="text-blue-600 hover:text-blue-800 font-semibold">Login here</a>
-                                </p>
-                            </div>
                         </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+                                <i class="fas fa-user-tag text-purple-500"></i>
+                                Role
+                            </label>
+                            <select name="role"
+                                    class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm">
+                                <option value="user" selected>User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg btn-primary text-white font-semibold shadow-lg text-sm">
+                            <i class="fas fa-user-plus"></i>
+                            Register
+                        </button>
+
+                        <p class="text-center text-gray-600 text-xs">
+                            Already have an account? 
+                            <a href="<?= site_url('login') ?>" class="text-blue-600 hover:text-blue-800 font-semibold">Login here</a>
+                        </p>
                     </div>
                 </form>
             </div>

@@ -157,11 +157,11 @@
                     <p class="error text-center mb-4"><?= htmlspecialchars($error) ?></p>
                 <?php endif; ?>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=800&q=80&auto=format&fit=crop" alt="Register Illustration" class="max-w-full h-auto rounded-lg shadow-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                    <div class="image-container h-full">
+                        <img src="https://i.pinimg.com/736x/c0/50/e4/c050e4b7cd705bb390c3ce021cc5f80d.jpg" alt="Register Illustration" class="w-full h-full object-cover rounded-lg shadow-lg">
                     </div>
-                    <div>
+                    <div class="h-full">
                         <form method="post" action="<?= site_url('register') ?>" class="space-y-5" novalidate>
                             <div class="space-y-4">
                                 <div>

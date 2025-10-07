@@ -76,6 +76,12 @@
             background: rgba(255, 255, 255, 0.95);
         }
 
+        /* Hide Edge/IE native password reveal so we only use the emoji toggle */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none;
+        }
+
         .floating-icon {
             animation: float 3s ease-in-out infinite;
         }
@@ -151,42 +157,49 @@
                     <p class="error text-center mb-4"><?= htmlspecialchars($error) ?></p>
                 <?php endif; ?>
 
-                <form method="post" action="<?= site_url('login') ?>" class="space-y-5" novalidate>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
-                            <i class="fas fa-user text-blue-500"></i>
-                            Username
-                        </label>
-                        <input type="text" name="username" placeholder="Enter username or email" required
-                            class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80&auto=format&fit=crop" alt="Login Illustration" class="max-w-full h-auto rounded-lg shadow-lg">
                     </div>
-
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
-                            <i class="fas fa-lock text-red-500"></i>
-                            Password
-                        </label>
-                        <div class="relative">
-                            <input type="password" name="password" id="password" placeholder="Enter password" required
-                                class="w-full px-3 py-2 pr-10 rounded-lg form-input focus:outline-none text-sm" />
-                            <button type="button" onclick="togglePassword()"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none text-sm font-bold">
-                                <span id="password-toggle">👁️</span>
+                        <form method="post" action="<?= site_url('login') ?>" class="space-y-5" novalidate>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+                                    <i class="fas fa-user text-blue-500"></i>
+                                    Username
+                                </label>
+                                <input type="text" name="username" placeholder="Enter username or email" required
+                                    class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+                                    <i class="fas fa-lock text-red-500"></i>
+                                    Password
+                                </label>
+                                <div class="relative">
+                                    <input type="password" name="password" id="password" placeholder="Enter password" required
+                                        class="w-full px-3 py-2 pr-10 rounded-lg form-input focus:outline-none text-sm" />
+                                    <button type="button" onclick="togglePassword()"
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none text-sm font-bold">
+                                        <span id="password-toggle">👁️</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg btn-primary text-white font-semibold shadow-lg text-sm">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Login
                             </button>
-                        </div>
+
+                            <p class="text-center text-gray-600 text-xs mt-3">
+                                Don't have an account? 
+                                <a href="<?= site_url('register') ?>" class="text-blue-600 hover:text-blue-800 font-semibold">Register here</a>
+                            </p>
+                        </form>
                     </div>
-
-                    <button type="submit"
-                        class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg btn-primary text-white font-semibold shadow-lg text-sm">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Login
-                    </button>
-
-                    <p class="text-center text-gray-600 text-xs mt-3">
-                        Don't have an account? 
-                        <a href="<?= site_url('register') ?>" class="text-blue-600 hover:text-blue-800 font-semibold">Register here</a>
-                    </p>
-                </form>
+                </div>
             </div>
         </section>
 

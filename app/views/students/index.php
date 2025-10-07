@@ -224,8 +224,13 @@
             <div class="flex items-center gap-4 w-full md:w-auto justify-end">
             <form class="relative" action="<?= site_url('students/index'); ?>" method="get">
                 <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                <input name="q" type="text" placeholder="Search students..." value="<?= isset($q) ? html_escape($q) : '' ?>"
-                    class="pl-10 pr-4 py-3 rounded-xl search-input w-full md:w-64 focus:outline-none"/>
+                <input id="searchInput" name="q" type="text" placeholder="Search students..." value="<?= isset($q) ? html_escape($q) : '' ?>"
+                    class="pl-10 pr-10 py-3 rounded-xl search-input w-full md:w-64 focus:outline-none"/>
+                <button type="button" id="clearSearchBtn" data-clear-url="<?= site_url('students/index'); ?>"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 <?= empty($q) ? 'hidden' : '' ?>"
+                    aria-label="Clear search">
+                    <i class="fas fa-times-circle"></i>
+                </button>
             </form>
             <?php if($current_role === 'admin'): ?>
                 <div class="w-48">
@@ -360,3 +365,28 @@
 </div>
 </body>
 </html>
+
+<script>
+    (function() {
+        const input = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearSearchBtn');
+        if (!input || !clearBtn) return;
+
+        function updateClearVisibility() {
+            if (input.value && input.value.trim().length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+        }
+
+        input.addEventListener('input', updateClearVisibility);
+        clearBtn.addEventListener('click', function() {
+            const url = clearBtn.getAttribute('data-clear-url');
+            window.location.href = url;
+        });
+
+        // Initialize visibility on load
+        updateClearVisibility();
+    })();
+</script>

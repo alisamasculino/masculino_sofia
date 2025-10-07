@@ -52,7 +52,9 @@ class StudentController extends Controller {
             'page_delimiter' => '&page='
         ]);
         $this->pagination->set_theme('bootstrap');
-        $this->pagination->initialize($total_rows, $records_per_page, $page, 'students?q='.$q);
+        $base = site_url('students/index');
+        $baseWithQuery = $q !== '' ? $base.'?q='.urlencode($q) : $base;
+        $this->pagination->initialize($total_rows, $records_per_page, $page, $baseWithQuery);
         $data['page'] = $this->pagination->paginate();
         $data['current_role'] = $this->session->userdata('role') ?? 'user';
         $this->call->view('students/index', $data);

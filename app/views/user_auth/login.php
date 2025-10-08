@@ -168,7 +168,7 @@
                                     <i class="fas fa-user text-blue-500"></i>
                                     Username
                                 </label>
-                                <input type="text" name="username" placeholder="student@gmail.com" required
+                                <input type="text" name="username" placeholder="Enter username" required
                                     class="w-full px-3 py-2 rounded-lg form-input focus:outline-none text-sm" />
                             </div>
 
